@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>JSTest Test Runner</title>
+		<link href="/tests/style.css" type="text/css" rel="stylesheet" media="screen" />
+		<script type="text/javascript" src="/js-zlib.js"></script>
+		<script type="text/javascript" src="/vendor/JSTest/jstest.js"></script>
+		<script type="text/javascript" src="/tests/tests.js"></script>
+		<script type="text/javascript">
+		window.onload = function () {
+			var resultsDiv = document.getElementById('test-results');
+			JSTest.run(true, JSTest.handlers.HTMLHandler, resultsDiv);
+		};
+		</script>
+	</head>
+	<body>
+		
+		<h1>JSTest Test Runner</h1>
+		
+		<div id="test-results"></div>
+		
+	</body>
+</html>
