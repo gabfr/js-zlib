@@ -2,9 +2,9 @@
 <html>
 	<head>
 		<title>JSTest Test Runner</title>
-		<link href="/tests/style.css" type="text/css" rel="stylesheet" media="screen" />
+		<link href="/vendor/JSTest/src/themes/default/style.css" type="text/css" rel="stylesheet" media="screen" />
 		<script type="text/javascript" src="/js-zlib.js"></script>
-		<script type="text/javascript" src="/vendor/JSTest/jstest.js"></script>
+		<script type="text/javascript" src="/vendor/JSTest/src/jstest.js"></script>
 		<script type="text/javascript" src="/tests/tests.js"></script>
 		<script type="text/javascript">
 		window.onload = function () {
@@ -12,6 +12,15 @@
 			JSTest.run(true, JSTest.handlers.HTMLHandler, resultsDiv);
 		};
 		</script>
+		<style type="text/css">
+		.testerror {
+			background-image: url("/vendor/JSTest/src/themes/default/cancel.png") !important;
+			}
+		
+		.testmessage {
+			background-image: url("/vendor/JSTest/src/themes/default/tick.png") !important;
+			}
+		</style>
 	</head>
 	<body>
 		
