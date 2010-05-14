@@ -357,7 +357,7 @@ var zlib = (function () {
 			windowBits = -windowBits;
 		}
 		
-		if (memLevel < 1 || memLevel > MAX_MEM_LEVEL || method != DEFLATED ||
+		if (memLevel < 1 || memLevel > MAX_MEM_LEVEL || method != STRATEGY.DEFLATED ||
 			windowBits < 8 || windowBits > 15 || level < 0 || level > 9 ||
 			strategy < 0 || strategy > FIXED) {
 			// What's going on here? There are too many conditions to get a
