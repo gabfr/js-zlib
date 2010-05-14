@@ -25,68 +25,70 @@ var zlib = (function () {
 	// zlib constants
 	// ----------------------------------------------------------------------------
 	
-	const ZLIB_VERSION		= "1.2.5";
+	const ZLIB_VERSION      = "1.2.5";
 	
-	const MAX_WINDOW_BITS	= 15;
+	const MAX_WINDOW_BITS   = 15;
 	
-	const MIN_MATCH			= 3;
+	const MIN_MATCH         = 3;
 	
 	const DEFAULT_MEM_LEVEL = 8;
 	
-	const DEFLATED			= 8;
+	const MAX_MEM_LEVEL     = 9; // Or 8?
 	
-	const COMPRESSION_LEVEL	= {
-		DEFAULT: 			  6, // Don't know why 6, but that's how it is in zlib
-		NONE: 				  0,
-		BEST_SPEED: 		  1,
-		BEST_COMPRESSION: 	  9
+	const DEFLATED          = 8;
+	
+	const COMPRESSION_LEVEL = {
+		DEFAULT:              6, // Don't know why 6, but that's how it is in zlib
+		NONE:                 0,
+		BEST_SPEED:           1,
+		BEST_COMPRESSION:     9
 	};
 	
 	const STRATEGY = {
-		DEFAULT: 			  0,
-		FILTERED: 			  1,
-		HUFFMAN_ONLY: 		  2,
-		RLE: 				  3,
-		FIXED: 				  4
+		DEFAULT:              0,
+		FILTERED:             1,
+		HUFFMAN_ONLY:         2,
+		RLE:                  3,
+		FIXED:                4
 	};
 	
 	const FLUSH = {
-		NONE: 				  0,
-		PARTIAL: 			  1,
-		SYNC: 				  2,
-		FULL: 				  3,
-		FINISH: 			  4,
-		BLOCK: 				  5,
-		TREES: 				  6
+		NONE:                 0,
+		PARTIAL:              1,
+		SYNC:                 2,
+		FULL:                 3,
+		FINISH:               4,
+		BLOCK:                5,
+		TREES:                6
 	};
 	
 	const STATUS = {
-		OK: 				  0,
-		STREAM_END: 		  1,
-		NEED_DICT: 			  2,
-		ERRNO: 			     -1, // wtf is errno? "error number"? "no error"? :/
-		STREAM_ERROR: 	     -2,
-		DATA_ERROR: 	     -3,
-		MEM_ERROR: 		     -4,
-		BUF_ERROR: 		     -5,
-		VERSION_ERROR: 	     -6
+		OK:                   0,
+		STREAM_END:           1,
+		NEED_DICT:            2,
+		ERRNO:               -1, // wtf is errno? "error number"? "no error"? :/
+		STREAM_ERROR:        -2,
+		DATA_ERROR:          -3,
+		MEM_ERROR:           -4,
+		BUF_ERROR:           -5,
+		VERSION_ERROR:       -6
 	};
 	
 	const DATA_TYPE = {
-		BINARY: 			  0,
-		TEXT: 				  1,
-		ASCII: 				  1, // For compatibility with 1.2.2 and earlier
-		UNKNOWN: 			  2
+		BINARY:               0,
+		TEXT:                 1,
+		ASCII:                1, // For compatibility with 1.2.2 and earlier
+		UNKNOWN:              2
 	};
 	
 	const STREAM_STATUS = {
-		INIT_STATE: 		  42,
-		EXTRA_STATE: 		  69,
-		NAME_STATE: 		  73,
-		COMMENT_STATE: 		  91,
-		HCRC_STATE: 		  103,
-		BUSY_STATE: 		  113,
-		FINISH_STATE: 		  666
+		INIT_STATE:           42,
+		EXTRA_STATE:          69,
+		NAME_STATE:           73,
+		COMMENT_STATE:        91,
+		HCRC_STATE:           103,
+		BUSY_STATE:           113,
+		FINISH_STATE:         666
 	};
 	
 	const ERROR_MESSAGES = [
@@ -313,13 +315,21 @@ var zlib = (function () {
 		// } FAR deflate_state;
 	};
 	
+	function error (message) {
+		var e = new zlib.Error(message);
+		zlib.log(e.toString());
+		throw e;
+	}
+	
 	function getErrorMessage (status) {
 		return ERROR_MESSAGES[STATUS.NEED_DICT - status];
 	}
 	
 	function deflateInit (stream, level, version) {
 		// FIXME: This whole method should really be in the Stream "constructor".
+		zlib.log("+ calling deflateInit");
 		
+		version = version || ZLIB_VERSION;
 		var method = STRATEGY.DEFLATED;
 		var windowBits = MAX_WINDOW_BITS;
 		var memLevel = DEFAULT_MEM_LEVEL;
@@ -333,12 +343,12 @@ var zlib = (function () {
 		var overlay; // This is of type "ushf". What is that?
 		
 		if (!version || version[0] != ZLIB_VERSION[0]) {
-			throw new zlib.Error("Version error: " + version + " not compatible " +
+			error("Version error: " + version + " not compatible " +
 				"with " + ZLIB_VERSION);
 		}
 		
 		if (!stream) {
-			throw new zlib.Error("Invalid stream: " + stream);
+			error("Invalid stream: " + stream);
 		}
 		
 		// What is "windowBits"?
@@ -352,7 +362,7 @@ var zlib = (function () {
 			strategy < 0 || strategy > FIXED) {
 			// What's going on here? There are too many conditions to get a
 			// good read on what the actual problem is.
-			throw new zlib.Error("FIXME: Write a proper error message");
+			error("FIXME: Write a proper error message");
 		}
 		
 		if (windowBits == 8)
@@ -382,7 +392,7 @@ var zlib = (function () {
 			s.status = STREAM_STATUS.FINISH_STATE;
 			stream.errorMessage = getErrorMessage(STATE.MEM_ERROR);
 			deflateEnd(stream);
-			throw new zlib.Error("Memory error"); // I'm pretty sure this will never happen
+			error("Memory error"); // I'm pretty sure this will never happen
 		}
 		
 		// Something will have to replace all this sizeof() stuff.
@@ -397,6 +407,7 @@ var zlib = (function () {
 	}
 	
 	function deflateReset (stream) {
+		zlib.log("+ calling deflateReset");
 	//     deflate_state *s;
 	// 
 	//     if (strm == Z_NULL || strm->state == Z_NULL ||
@@ -430,11 +441,11 @@ var zlib = (function () {
 	}
 	
 	function deflate (stream) {
-		
+		zlib.log("+ calling deflate");
 	}
 	
 	function deflateEnd (stream) {
-		
+		zlib.log("+ calling deflateEnd");
 	}
 	
 	// ----------------------------------------------------------------------------
@@ -442,6 +453,18 @@ var zlib = (function () {
 	// ----------------------------------------------------------------------------
 	
 	return {
+		/**
+		 * This method is here so zlib.log can be called in code and it
+		 * will work regardless of if we're being called in a browser (with
+		 * or without "console") or in node.js (if we're in node.js, this
+		 * will be replaced with sys.puts).
+		 */
+		log: function () {
+			if (typeof(console) == "object" && console.log) {
+				console.log.apply(console, arguments);
+			}
+		},
+		
 		VERSION: "0.0.1",
 		
 		/**
@@ -466,9 +489,11 @@ var zlib = (function () {
 		 */
 		compress: function (input, level) {
 			if (typeof(input) != "string") {
-				throw new zlib.Error("Cannot operate on input of type " +
+				error("Cannot operate on input of type " +
 					typeof(input) + " (" + input + ")");
 			}
+			
+			zlib.log("Compressing '" + input.slice(0, 10) + "'...");
 			
 			level = level | COMPRESSION_LEVEL.DEFAULT;
 			var stream = new Stream(input);
@@ -493,3 +518,18 @@ var zlib = (function () {
 		}
 	};
 })();
+
+// Set this library up to work with node.js
+if (typeof(window) == "undefined" &&
+	typeof(global) == "object" &&
+	typeof(require) == "function" &&
+	typeof(exports) == "object") {
+	// FIXME: Find a better way to tell we're running in node.js
+	for (var key in zlib) {
+		if (zlib.hasOwnProperty(key)) {
+			exports[key] = zlib[key];
+		}
+	}
+	
+	zlib.log = require("sys").puts;
+}

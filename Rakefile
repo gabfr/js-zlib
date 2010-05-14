@@ -6,3 +6,10 @@ task :test do
     python -c 'import SimpleHTTPServer; SimpleHTTPServer.test()'
   "
 end
+
+task :nodetest do
+  sh "
+    cd src/tests
+    node node-tests.js
+  "
+end
