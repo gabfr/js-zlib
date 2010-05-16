@@ -1,5 +1,5 @@
 JSTest.TestCase({
-	name: 'Basic Tests',
+	name: 'Compression Tests',
 	
 	testBadInputFails: function () {
 		this.assertRaises(zlib.Error, zlib.compress, null, null);

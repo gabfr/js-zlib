@@ -453,19 +453,18 @@ var zlib = (function () {
 	// ----------------------------------------------------------------------------
 	
 	return {
+		VERSION: "0.0.1",
+		
 		/**
-		 * This method is here so zlib.log can be called in code and it
-		 * will work regardless of if we're being called in a browser (with
-		 * or without "console") or in node.js (if we're in node.js, this
-		 * will be replaced with sys.puts).
+		 * This method is here so that one method can be called and it will
+		 * work regardless of if we're running in a browser or in node.js
+		 * (if we're in node.js, this will be replaced with sys.puts).
 		 */
 		log: function () {
 			if (typeof(console) == "object" && console.log) {
 				console.log.apply(console, arguments);
 			}
 		},
-		
-		VERSION: "0.0.1",
 		
 		/**
 		 * The exception type thrown by this zlib implementation any time
