@@ -1,4 +1,4 @@
 var sys = require("sys"),
-	zlib = require("../zlib");
+	zlib = require("../build/zlib");
 
 sys.puts(zlib.compress("hello"));

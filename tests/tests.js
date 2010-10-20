@@ -1,5 +1,22 @@
 JSTest.TestCase({
-	name: 'Compression Tests',
+	name: "Adler32 Tests",
+	
+	testBadInputFails: function () {
+		this.assertRaises(Error, adler32, null);
+		this.assertRaises(Error, adler32, undefined);
+		this.assertRaises(Error, adler32, true);
+		this.assertRaises(Error, adler32, {});
+		this.assertRaises(Error, adler32, []);
+		this.assertRaises(Error, adler32, 10);
+	},
+	
+	testChecksumWikipedia: function () {
+		this.assertEqual(adler32("Wikipedia"), 300286872);
+	}
+});
+
+JSTest.TestCase({
+	name: "Compression Tests",
 	
 	testBadInputFails: function () {
 		this.assertRaises(zlib.Error, zlib.compress, null, null);

@@ -1,0 +1,7 @@
+zlib.js:
+    - src/wrapper/header.js
+    - src/constants.js
+    - src/utils.js
+    - src/adler32.js
+    - src/zlib.js
+    - src/wrapper/footer.js
