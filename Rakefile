@@ -41,8 +41,7 @@ end
 task :test do
   sh "
     # Press Ctrl-C to shutdown the test server
-    cd tests
-    open http://localhost:8000/tests.html
+    open http://localhost:8000/tests/tests.html
     python -c 'import SimpleHTTPServer; SimpleHTTPServer.test()'
   "
 end

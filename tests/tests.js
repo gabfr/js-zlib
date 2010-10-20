@@ -2,16 +2,16 @@ JSTest.TestCase({
 	name: "Adler32 Tests",
 	
 	testBadInputFails: function () {
-		this.assertRaises(Error, adler32, null);
-		this.assertRaises(Error, adler32, undefined);
-		this.assertRaises(Error, adler32, true);
-		this.assertRaises(Error, adler32, {});
-		this.assertRaises(Error, adler32, []);
-		this.assertRaises(Error, adler32, 10);
+		this.assertRaises(Error, zlib.utils.adler32, null);
+		this.assertRaises(Error, zlib.utils.adler32, undefined);
+		this.assertRaises(Error, zlib.utils.adler32, true);
+		this.assertRaises(Error, zlib.utils.adler32, {});
+		this.assertRaises(Error, zlib.utils.adler32, []);
+		this.assertRaises(Error, zlib.utils.adler32, 10);
 	},
 	
 	testChecksumWikipedia: function () {
-		this.assertEqual(adler32("Wikipedia"), 300286872);
+		this.assertEqual(zlib.utils.adler32("Wikipedia"), 300286872);
 	}
 });
 

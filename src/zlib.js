@@ -340,6 +340,10 @@ function deflateEnd (stream) {
 return {
 	VERSION: "0.0.1",
 	
+	utils: {
+		adler32: adler32
+	},
+	
 	/**
 	 * This method is here so that one method can be called and it will
 	 * work regardless of if we're running in a browser or in node.js
