@@ -19,7 +19,6 @@ function adler32 (buffer)
 	
 	var s1 = 1; // Sum of all bytes
 	var s2 = 0; // Sum of all s1 values
-	var b; // The current byte
 	var length = buffer.length;
 	var n, i = 0;
 	
@@ -27,7 +26,7 @@ function adler32 (buffer)
 		n = Math.min(length, ADLER_NMAX);
 		length -= n;
 		for (; n >= 16; n -= 16) {
-			// s2 += (s1 += buffer.charCodeAt(i++));
+			// s2 += (s1 += buffer.charCodeAt(i++)); // Maybe this one is slightly better? Need to test.
 			s1 += buffer.charCodeAt(i++); s2 += s1;
 			s1 += buffer.charCodeAt(i++); s2 += s1;
 			s1 += buffer.charCodeAt(i++); s2 += s1;
