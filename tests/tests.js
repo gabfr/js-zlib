@@ -12,6 +12,12 @@ JSTest.TestCase({
 	
 	testChecksumWikipedia: function () {
 		this.assertEqual(zlib.utils.adler32("Wikipedia"), 300286872);
+	},
+	
+	testUpdatingChecksumWikipedia: function () {
+		var adler = zlib.utils.adler32("Wiki");
+		adler = zlib.utils.adler32("pedia", adler);
+		this.assertEqual(adler, 300286872);
 	}
 });
 
