@@ -127,14 +127,14 @@ var ADLER_NMAX = 5552; // From zlib docs: the largest n such that 255n(n+1)/2 + 
  * @return number The checksum of the given string buffer
  * @throws Error when given anything but a string
  */
-function adler32 (buffer)
+function adler32 (buffer, adler)
 {
 	if (typeof buffer != "string") {
 		throw new Error("adler32 received a buffer that is not a string");
 	}
 	
-	var s1 = 1; // Sum of all bytes
-	var s2 = 0; // Sum of all s1 values
+	var s1 = adler === undefined ? 1 : (adler &  0xFFFF); // Sum of all bytes
+	var s2 = adler === undefined ? 0 : (adler >> 16);     // Sum of all s1 values
 	var length = buffer.length;
 	var n, i = 0;
 	
