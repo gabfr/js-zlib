@@ -1,5 +1,5 @@
 var ADLER32_MOD = 65521; // Largest prime smaller than 65536
-var ADLER_NMAX = 5552; // From zlib docs: the largest n such that 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1
+var ADLER_NMAX  = 5552; // From zlib docs: the largest n such that 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1
 
 /**
  * From Wikipedia: Adler-32 is a checksum algorithm which
@@ -17,8 +17,8 @@ function adler32 (buffer, adler)
 		throw new Error("adler32 received a buffer that is not a string");
 	}
 	
-	var s1 = adler === undefined ? 1 : (adler &  0xFFFF); // Sum of all bytes
-	var s2 = adler === undefined ? 0 : (adler >> 16);     // Sum of all s1 values
+	var s1 = adler === undefined ? 1 : (adler &  0xFFFF);      // Sum of all bytes
+	var s2 = adler === undefined ? 0 : (adler >> 16) & 0xFFFF; // Sum of all s1 values
 	var length = buffer.length;
 	var n, i = 0;
 	
